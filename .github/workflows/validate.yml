@@ -1,0 +1,24 @@
+name: Validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  notebook:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Validate notebook JSON
+        run: python -m json.tool notebooks/groundingdino_prompt_sensitivity.ipynb > /dev/null
+      - name: Check for common secret patterns
+        shell: bash
+        run: |
+          if grep -E '(ghp_[A-Za-z0-9]+|@naver\.com|2022124017)' notebooks/groundingdino_prompt_sensitivity.ipynb; then
+            echo "Potential private information found."
+            exit 1
+          fi

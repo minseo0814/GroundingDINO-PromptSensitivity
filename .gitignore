@@ -1,0 +1,10 @@
+__pycache__/
+.ipynb_checkpoints/
+.venv/
+weights/
+outputs/
+*.pth
+*.pt
+scene_*.jpg
+scene_*.png
+.env
